@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Register - Step 2
+{% endblock title %}
+
+{% block content %}
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <br />
+            <h3>Register - Step 2</h3>
+            full this fields to complete your profile
+            <br />
+            <form class="form" method="POST" action="{% url 'nsusers:register_profile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{form}}
+
+                <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock content %}

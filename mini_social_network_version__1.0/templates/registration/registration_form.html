@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Register for an account" %}{% endblock %}
+
+{% block content %}
+<div class="auth">
+    <div class="card">
+      <div class="auth__header text-center">
+        <a href="/">
+          <img src="{% static 'images/icon.svg' %}" alt="icon" />
+        </a>
+        <h3>Account SignUp</h3>
+        <p>Create a new developer account</p>
+      </div>
+  
+      <form action="" method='post' class="form auth__form">
+        {% csrf_token %}
+        <div class="form__field">
+          <label for="id_username">username: </label>
+          <input
+            class="input input--text"
+            id="id_username"
+            type="text"
+            name="username"
+            maxlength="150" autofocus="" required=""
+            placeholder="e.g. username"
+          />
+        </div>
+  
+        <div class="form__field">
+          <label for="id_email">Email Address: </label>
+          <input
+            class="input input--email"
+            id="id_email"
+            type="email"
+            name="email"
+            required=""
+            placeholder="e.g. user@domain.com"
+          />
+        </div>
+  
+        <div class="form__field">
+          <label for="id_password1">Password: </label>
+          <input
+            class="input input--password"
+            id="id_password1"
+            type="password"
+            name="password1"
+            autocomplete="new-password" required=""
+            placeholder="••••••••"
+          />
+        </div>
+  
+        <div class="form__field">
+          <label for="id_password2">Confirm Password: </label>
+          <input
+            class="input input--password"
+            id="id_password2"
+            type="password"
+            name="password2"
+            autocomplete="new-password" required=""
+            placeholder="••••••••"
+          />
+        </div>
+        <div class="auth__actions">
+          <input class="btn btn--sub btn--lg" type="submit" value="{% trans 'Sign In' %}" />
+        </div>
+      </form>
+      <div class="auth__alternative">
+        <p>Already have an Account?</p>
+        <a href="{% url 'auth_login' %}">Log In</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

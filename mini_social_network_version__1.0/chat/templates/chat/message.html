@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %
+{% load humanize %}}
+
+{% block content %}
+<main class="messagePage my-xl">
+  <div class="content-box">
+    <div class="message">
+      <a class="backButton" href="javascript:window.history.back()"><i class="im im-angle-left"></i></a>
+      <br />
+        <a href="{% url 'nsusers:profile' message.owner.user.username %}" class="message__author">{{message.owner.user.username}}</a>
+        <p class="message__date">{{message.created_at|naturaltime}}</p>
+        <div class="message__body">{{message.text|linebreaksbr}}</div>
+        
+        <div class="message__body"><a href="{% url 'nschat:talk' message.owner.user.username %}">
+          <br />&nbsp;&nbsp;&nbsp;replay
+        </a></div>
+    </div>
+  </div>
+</main>
+{% endblock content %}
