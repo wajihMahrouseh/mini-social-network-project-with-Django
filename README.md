@@ -7,7 +7,9 @@ I built this project in 3 versions, like FBV, CBV and Generic View
 you can see the diffrenet versions in unique folders:
 
 The FBV version: mini_social_network_version__1.0
+
 The CBV version: mini_social_network_version__1.1
+
 The GCBV version: mini_social_network_version__1.2
 
 
