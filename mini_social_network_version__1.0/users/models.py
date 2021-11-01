@@ -32,7 +32,7 @@ def createProfile(sender, instance, created, **kwargs):
 post_save.connect(createProfile, sender=User)
 
 class Skill(models.Model):
-    name = models.CharField(max_length=200, blank=True, null=True)
+    name = models.CharField(max_length=200)
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 

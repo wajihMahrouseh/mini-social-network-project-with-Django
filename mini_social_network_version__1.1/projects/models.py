@@ -19,9 +19,9 @@ class ProjectQuerySet(models.QuerySet):
         elif 'all' == type_x:
             return self.all().order_by('-created_at')
         elif 'fav' == type_x:
-            return self.filter(fav_rate__gt=0).order_by('-views')[:18]
+            return self.filter(fav_rate__gt=0).order_by('-fav_rate')[:18]
         elif 'view' == type_x:
-            return self.filter(views__gt=0).order_by('-fav_rate')[:18]
+            return self.filter(views__gt=0).order_by('-views')[:18]
 
 class ProjectManager(models.Manager):
     def get_queryset(self):

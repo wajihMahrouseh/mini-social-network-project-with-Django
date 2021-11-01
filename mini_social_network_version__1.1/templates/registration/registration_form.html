@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load static %}
+{% load widget_tweaks %}
+
 
 {% block title %}{% trans "Register for an account" %}{% endblock %}
 
@@ -17,52 +19,22 @@
   
       <form action="" method='post' class="form auth__form">
         {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-warning alert-dismissible fade show" style="font-size: 11px" role="alert">
+              {{ form.non_field_errors }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        {% endif %}
+                
         <div class="form__field">
-          <label for="id_username">username: </label>
-          <input
-            class="input input--text"
-            id="id_username"
-            type="text"
-            name="username"
-            maxlength="150" autofocus="" required=""
-            placeholder="e.g. username"
-          />
-        </div>
-  
-        <div class="form__field">
-          <label for="id_email">Email Address: </label>
-          <input
-            class="input input--email"
-            id="id_email"
-            type="email"
-            name="email"
-            required=""
-            placeholder="e.g. user@domain.com"
-          />
-        </div>
-  
-        <div class="form__field">
-          <label for="id_password1">Password: </label>
-          <input
-            class="input input--password"
-            id="id_password1"
-            type="password"
-            name="password1"
-            autocomplete="new-password" required=""
-            placeholder="••••••••"
-          />
-        </div>
-  
-        <div class="form__field">
-          <label for="id_password2">Confirm Password: </label>
-          <input
-            class="input input--password"
-            id="id_password2"
-            type="password"
-            name="password2"
-            autocomplete="new-password" required=""
-            placeholder="••••••••"
-          />
+            {% for field in form %}
+                <p>{{ field.label_tag }}</p>
+                <p>{{ field.errors }}</p>
+                <p>{{ field|add_class:"input input--text" }}</p>
+                <p>{{ field.help_text }}</p>
+            {% endfor %}
         </div>
         <div class="auth__actions">
           <input class="btn btn--sub btn--lg" type="submit" value="{% trans 'Sign In' %}" />
