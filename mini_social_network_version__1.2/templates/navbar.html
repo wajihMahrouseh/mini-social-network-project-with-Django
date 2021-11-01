@@ -1,0 +1,34 @@
+{% load static %}
+<header class="header">
+<div class="container container--narrow">
+    <a href="/" class="header__logo">
+    <img src="{% static 'images/logo.svg' %}" alt="DevSearch Logo" />
+    </a>
+    <nav class="header__nav">
+    <input type="checkbox" id="responsive-menu" />
+    <label for="responsive-menu" class="toggle-menu">
+        <span>Menu</span>
+        <div class="toggle-menu__lines"></div>
+    </label>
+    <ul class="header__menu">
+        {% url 'nsusers:home' as abc %}
+        <li {% ifequal request.get_full_path abc %}class="active"{% else %}class="header__menuItem"{% endifequal %}><a href="{% url 'nsusers:home' %}">Developers</a></li>
+        {% url 'nsprojects:all' as abc1 %}
+        <li {% ifequal request.get_full_path abc1 %}class="active"{% else %}class="header__menuItem"{% endifequal %}><a href="{% url 'nsprojects:all' %}">Projects</a></li>
+        {% if user.is_authenticated %}
+        {% url 'nschat:inbox' as abc2 %}
+        <li {% ifequal request.get_full_path abc2 %}class="active"{% else %}class="header__menuItem"{% endifequal %}><a href="{% url 'nschat:inbox' %}">Inbox</a></li>
+        {% url 'nsusers:myaccount' as abc3 %}
+        <li {% ifequal request.get_full_path abc3 %}class="active"{% else %}class="header__menuItem"{% endifequal %}><a href="{% url 'nsusers:myaccount' %}">My Account</a></li>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <li class="header__menuItem"><a href="{% url 'auth_password_change' %}" >reset pass</a></li>
+        <li class="header__menuItem"><a href="{% url 'auth_logout' %}?next={% url 'nsusers:home' %}" class="btn btn--sub">Logout</a></li>
+        {% else %}
+        <li class="header__menuItem"><a href="{% url 'auth_login' %}" class="btn btn--sub">Login / Sign Up</a></li>
+        {% endif %}
+    </ul>
+    </nav>
+</div>
+</header>

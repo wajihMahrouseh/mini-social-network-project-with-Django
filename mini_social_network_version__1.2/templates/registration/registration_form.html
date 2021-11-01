@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %}{% trans "Register for an account" %}{% endblock %}
+
+{% block content %}
+<div class="auth">
+    <div class="card">
+      <div class="auth__header text-center">
+        <a href="/">
+          <img src="{% static 'images/icon.svg' %}" alt="icon" />
+        </a>
+        <h3>Account SignUp</h3>
+        <p>Create a new developer account</p>
+      </div>
+  
+      <form action="" method='post' class="form auth__form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-warning alert-dismissible fade show" style="font-size: 11px" role="alert">
+              {{ form.non_field_errors }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        {% endif %}
+                
+        <div class="form__field">
+            {% for field in form %}
+                <p>{{ field.label_tag }}</p>
+                <p>{{ field.errors }}</p>
+                <p>{{ field|add_class:"input input--text" }}</p>
+                <p>{{ field.help_text }}</p>
+            {% endfor %}
+        </div>
+        <div class="auth__actions">
+          <input class="btn btn--sub btn--lg" type="submit" value="{% trans 'Sign In' %}" />
+        </div>
+      </form>
+      <div class="auth__alternative">
+        <p>Already have an Account?</p>
+        <a href="{% url 'auth_login' %}">Log In</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

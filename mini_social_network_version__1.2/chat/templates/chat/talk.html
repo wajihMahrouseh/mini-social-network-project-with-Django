@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<main class="formPage my-xl">
+    <div class="content-box">
+        <div class="formWrapper">
+            <a class="backButton" href="javascript:window.history.back()"><i class="im im-angle-left"></i></a>
+            <br>
+
+            <form class="form" method="post">
+                {% csrf_token %}
+                <div class="form__field">
+                    <textarea class="input input--textarea" name="message" required="true" minlength="2" 
+                    maxlength="120" size="60" placeholder="enter message ..." rows="6"></textarea>
+                </div>
+                
+                <input class="btn btn--sub btn--lg  my-md" type="submit" value="Chat"/> 
+                <a class="btn btn--sub btn--lg  my-md" href="javascript:window.history.back()" >Cancel</a>
+                </p>
+                </form>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block navbar %}
+  {% include "navbar.html" %}
+{% endblock %}
+
+{% block content %}
+  <main class="inbox my-xl">
+    <div class="content-box">
+      <h3 class="inbox__title">New Messages(<span>{{ unreadCount }}</span>)</h3>
+      <ul class="messages" id="chatcontent">
+        
+      </ul>
+    </div>
+    <br /><br />
+    <div class="content-box">
+      <h3 class="inbox__title">old Messages(<span>{{ readCount }}</span>)</h3>
+      <ul class="messages" id="rechatcontent">
+        
+      </ul>
+    </div>
+  </main>
+
+  <script type="text/javascript">
+    function updateMsg() {
+        console.log('Requesting JSON'); 
+        $.getJSON('{% url 'nschat:messages' %}', function(rowz){
+            console.log('JSON', rowz);
+            $('#chatcontent').empty();
+            $('#rechatcontent').empty();
+            for (var i = 0; i < rowz.length; i++) {
+            arow = rowz[i];
+            var url_mask = "{% url 'chat:view_message' %}?q=125".replace(/125/, arow[3].toString());
+            if (arow[4] == false){
+            $('#chatcontent').append(
+              '<li class="message message--unread">'+
+              '<a href="'+url_mask+'"">'+
+                '<span class="message__author">'+arow[2]+'</span>\n'+
+                '<span class="message__subject">'+arow[0]+'</span>\n'+
+                '<span class="message__date">'+arow[1]+'</span>\n'+
+              '</a>'+
+              '</li>\n'
+          
+                );
+              }
+            else{
+              $('#rechatcontent').append(
+              '<li class="message message--unread">'+
+              '<a href="'+url_mask+'"">'+
+                '<span class="message__author">'+arow[2]+'</span>\n'+
+                '<span class="message__subject">'+arow[0]+'</span>\n'+
+                '<span class="message__date">'+arow[1]+'</span>\n'+
+              '</a>'+
+              '</li>\n'
+          
+                );
+            }
+            }
+            setTimeout('updateMsg()', 300);
+        });
+    }
+  
+    // Make sure JSON requests are not cached
+    $(document).ready(function() {
+        $.ajaxSetup({ cache: false });
+        setTimeout('updateMsg()', 300);
+    });
+
+    
+  </script>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block navbar %}
+  {% include "navbar.html" %}
+{% endblock %}
+
+{% block content %}
+  <main class="projects">
+    {% include "search_projects.html" %}
+
+    {% if page_obj %}
+      
+        <section class="projectsList">
+          <div class="container">
+            <div class="grid grid--three">
+              {% for project in page_obj %}
+                <div class="column">
+                  <div class="card project">
+                    <a href="{% url 'nsprojects:project_detail'  project.slug %}" class="project">
+                    {% if project.content_type %}
+                      <img class="project__thumbnail" src="{% url 'nsprojects:project_picture' project.id %}" alt="project thumbnail" />
+                    {% endif %}
+                      <div class="card__body">
+                        <h3 class="project__title">{{ project.title }}</h3>
+                        <p><a class="project__author" href="{% url 'nsusers:profile' project.owner.user.username %}">{{ project.owner.user.username }}</a></p>
+                        <p>{{project.text|slice:"150"}}</p>
+                        <p class="project--rating">
+                          <span style="font-weight: bold;">{{project.views}}</span> view{{project.views|pluralize}} &nbsp;
+                          
+                          {% if user.is_authenticated %}
+                            <!-- Two hrefs with two stacked icons each - one showing and one hidden -->
+                            <a href="#" onclick=
+                            "favPost('{% url 'nsprojects:project_unfavorite' project.id %}', {{ project.id }} );return false;"
+                            {% if project.id not in favorites %} style="display: none;" {% endif %}
+                            id="favorite_star_{{project.id}}">
+                            <span class="fa-stack" style="vertical-align: middle;">
+                            <i class="fa fa-star fa-stack-1x" style="color: orange;"></i>
+                            <i class="fa fa-star-o fa-stack-1x"></i>
+                            </span>
+                            </a>
+                            <!-- the second href -->
+                            <a href="#" onclick=
+                            "favPost('{% url 'nsprojects:project_favorite' project.id %}', {{ project.id }} );return false;"
+                            {% if project.id in favorites %} style="display: none;" {% endif %}
+                            id="unfavorite_star_{{project.id}}">
+                            <span class="fa-stack" style="vertical-align: middle;">
+                            <i class="fa fa-star fa-stack-1x" style="display: none; color: orange;"></i>
+                            <i class="fa fa-star-o fa-stack-1x"></i>
+                            </span>
+                            </a>
+                            
+                          {% endif %}
+
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+
+    {% else %}
+      <br />
+      <h2>&nbsp;&nbsp;&nbsp;{{ ctx_msg }}.</h2>
+    {% endif %}
+
+    {% include "pagination.html" %}
+
+    <script>
+      function favPost(url, project_id) {
+          console.log('Requesting JSON');
+          $.post(url, {},  function(rowz){
+              console.log(url, 'finished');
+              $("#unfavorite_star_"+project_id).toggle();
+              $("#favorite_star_"+project_id).toggle();
+          }).fail(function(xhr) {
+              alert('Url failed with '+xhr.status+' '+url);
+          });
+      }
+    </script>
+  </main>
+{% endblock %}
